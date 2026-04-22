@@ -1,0 +1,5 @@
+package com.parishay.healthhub.controller;
+
+public class PatientController {
+
+}

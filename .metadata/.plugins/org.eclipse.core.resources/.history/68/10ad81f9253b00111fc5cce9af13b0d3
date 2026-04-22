@@ -1,0 +1,5 @@
+package com.parishay.healthhub.entity;
+
+public class Visit {
+
+}

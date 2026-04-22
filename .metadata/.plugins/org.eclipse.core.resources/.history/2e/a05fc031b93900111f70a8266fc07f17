@@ -1,0 +1,48 @@
+package com.parishay.healthhub.service;
+
+import com.parishay.healthhub.entity.Sale;
+import com.parishay.healthhub.repository.SaleRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class SaleService {
+
+    private final SaleRepository saleRepository;
+
+    public SaleService(SaleRepository saleRepository) {
+        this.saleRepository = saleRepository;
+    }
+
+    public Sale create(Sale sale) {
+        return saleRepository.save(sale);
+    }
+
+    public List<Sale> getAll() {
+        return saleRepository.findAll();
+    }
+
+    public Optional<Sale> getById(Long id) {
+        return saleRepository.findById(id);
+    }
+
+    public Sale update(Long id, Sale updated) {
+        return saleRepository.findById(id)
+                .map(sale -> {
+                    sale.setDateTime(updated.getDateTime());
+                    sale.setAmount(updated.getAmount());
+                    sale.setType(updated.getType());
+                    sale.setDescription(updated.getDescription());
+                    sale.setDoctorName(updated.getDoctorName());
+                    sale.setPaymentMethod(updated.getPaymentMethod());
+                    return saleRepository.save(sale);
+                })
+                .orElseThrow(() -> new RuntimeException("Sale not found with id " + id));
+    }
+
+    public void delete(Long id) {
+        saleRepository.deleteById(id);
+    }
+}

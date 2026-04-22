@@ -1,0 +1,5 @@
+package com.parishay.healthhub.repository;
+
+public interface AppointmentRepository {
+
+}

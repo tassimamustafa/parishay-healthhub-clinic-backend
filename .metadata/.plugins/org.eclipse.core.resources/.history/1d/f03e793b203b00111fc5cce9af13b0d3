@@ -1,0 +1,92 @@
+package com.parishay.healthhub.controller;
+
+import com.parishay.healthhub.entity.Appointment;
+import com.parishay.healthhub.service.AppointmentService;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/appointments")
+@CrossOrigin(origins = "*")
+public class AppointmentController {
+
+    private final AppointmentService appointmentService;
+
+    public AppointmentController(AppointmentService appointmentService) {
+        this.appointmentService = appointmentService;
+    }
+
+    // --------- Basic CRUD ---------
+
+    // Create new appointment
+    @PostMapping
+    public ResponseEntity<Appointment> create(@RequestBody Appointment appointment) {
+        Appointment saved = appointmentService.create(appointment);
+        return ResponseEntity.ok(saved);
+    }
+
+    // Get all appointments
+    @GetMapping
+    public ResponseEntity<List<Appointment>> getAll() {
+        return ResponseEntity.ok(appointmentService.getAll());
+    }
+
+    // Get one appointment
+    @GetMapping("/{id}")
+    public ResponseEntity<Appointment> getById(@PathVariable Long id) {
+        return appointmentService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Update appointment
+    @PutMapping("/{id}")
+    public ResponseEntity<Appointment> update(@PathVariable Long id,
+                                              @RequestBody Appointment appointment) {
+        Appointment updated = appointmentService.update(id, appointment);
+        return ResponseEntity.ok(updated);
+    }
+
+    // Delete appointment
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        appointmentService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // --------- Filters / Queries ---------
+
+    // All appointments of a patient
+    @GetMapping("/by-patient")
+    public ResponseEntity<List<Appointment>> getByPatient(
+            @RequestParam("patientId") Long patientId) {
+        return ResponseEntity.ok(appointmentService.getByPatientId(patientId));
+    }
+
+    // All appointments of a doctor
+    @GetMapping("/by-doctor")
+    public ResponseEntity<List<Appointment>> getByDoctor(
+            @RequestParam("doctorId") Long doctorId) {
+        return ResponseEntity.ok(appointmentService.getByDoctorId(doctorId));
+    }
+
+    // One doctor's appointments on specific date
+    @GetMapping("/by-doctor-and-date")
+    public ResponseEntity<List<Appointment>> getByDoctorAndDate(
+            @RequestParam("doctorId") Long doctorId,
+            @RequestParam("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return ResponseEntity.ok(appointmentService.getByDoctorAndDate(doctorId, date));
+    }
+
+    // All appointments by status
+    @GetMapping("/by-status")
+    public ResponseEntity<List<Appointment>> getByStatus(
+            @RequestParam("status") String status) {
+        return ResponseEntity.ok(appointmentService.getByStatus(status));
+    }
+}

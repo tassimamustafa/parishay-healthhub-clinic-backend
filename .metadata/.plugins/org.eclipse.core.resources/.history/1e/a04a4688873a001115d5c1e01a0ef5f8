@@ -1,0 +1,5 @@
+package com.parishay.healthhub.service;
+
+public class AppointmentService {
+
+}
