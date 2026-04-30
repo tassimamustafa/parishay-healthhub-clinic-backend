@@ -1,6 +1,10 @@
 package com.parishay.healthhub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,21 +16,30 @@ public class Sale {
     private Long id;
 
     // Date + time of sale
+    @NotNull(message = "Sale date and time is required")
     private LocalDateTime dateTime;
 
     // Amount of sale
+    @NotNull(message = "Amount is required")
+    @Positive(message = "Amount must be positive")
     private Double amount;
 
     // Consultation, Medicine, Lab Test, Procedure, etc.
+    @NotBlank(message = "Sale type is required")
+    @Size(max = 50, message = "Sale type must be at most 50 characters")
     private String type;
 
     // Short note
+    @Size(max = 255, message = "Description must be at most 255 characters")
     private String description;
 
     // Which doctor (optional simple text for now)
+    @Size(max = 100, message = "Doctor name must be at most 100 characters")
     private String doctorName;
 
     // Cash, Card, Online, etc.
+    @NotBlank(message = "Payment method is required")
+    @Size(max = 50, message = "Payment method must be at most 50 characters")
     private String paymentMethod;
 
     public Sale() {

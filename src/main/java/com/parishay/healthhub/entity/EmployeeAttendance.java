@@ -1,6 +1,9 @@
 package com.parishay.healthhub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -12,15 +15,21 @@ public class EmployeeAttendance {
     private Long id;
 
     // Simple: employee name text (later we can link with Employee entity)
+    @NotBlank(message = "Employee name is required")
+    @Size(max = 100, message = "Employee name must be at most 100 characters")
     private String employeeName;
 
     // Attendance date
+    @NotNull(message = "Date is required")
     private LocalDate date;
 
     // Present / Absent / Leave
+    @NotBlank(message = "Status is required")
+    @Size(max = 20, message = "Status must be at most 20 characters")
     private String status;
 
     // Optional: small note (late, half-day, reason, etc.)
+    @Size(max = 255, message = "Note must be at most 255 characters")
     private String note;
 
     public EmployeeAttendance() {

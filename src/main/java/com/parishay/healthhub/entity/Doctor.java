@@ -1,6 +1,9 @@
 package com.parishay.healthhub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,18 +14,30 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Doctor name is required")
+    @Size(max = 100, message = "Doctor name must be at most 100 characters")
     private String name;
 
+    @NotBlank(message = "Specialization is required")
+    @Size(max = 100, message = "Specialization must be at most 100 characters")
     private String specialization;
 
+    @NotBlank(message = "Phone number is required")
+    @Size(max = 20, message = "Phone number must be at most 20 characters")
     private String phone;
 
+    @Size(max = 100, message = "Email must be at most 100 characters")
     private String email;
 
+    @NotBlank(message = "City is required")
+    @Size(max = 50, message = "City must be at most 50 characters")
     private String city;
 
+    @Positive(message = "Fees must be positive")
     private Double fees;
 
+    @NotBlank(message = "Status is required")
+    @Size(max = 20, message = "Status must be at most 20 characters")
     private String status; // Active / Inactive
 
     private LocalDateTime dutyTime;

@@ -1,6 +1,9 @@
 package com.parishay.healthhub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,22 +15,31 @@ public class Appointment {
     private Long id;
 
     // Link to Patient (Patient table ka id)
+    @NotNull(message = "Patient ID is required")
     private Long patientId;
 
     // Link to Doctor (Doctor table ka id)
+    @NotNull(message = "Doctor ID is required")
     private Long doctorId;
 
     // Optional: easy viewing ke liye names bhi store kar lete hain
+    @Size(max = 100, message = "Patient name must be at most 100 characters")
     private String patientName;
+
+    @Size(max = 100, message = "Doctor name must be at most 100 characters")
     private String doctorName;
 
     // Appointment date + time
+    @NotNull(message = "Appointment date and time is required")
     private LocalDateTime appointmentDateTime;
 
     // Status: BOOKED / COMPLETED / CANCELLED / NO_SHOW
+    @NotBlank(message = "Status is required")
+    @Size(max = 20, message = "Status must be at most 20 characters")
     private String status;
 
     // Reason / notes
+    @Size(max = 1000, message = "Reason must be at most 1000 characters")
     private String reason;
 
     // NEW: linked Sale record ka id (nullable)

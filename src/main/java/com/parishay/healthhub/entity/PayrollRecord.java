@@ -1,6 +1,11 @@
 package com.parishay.healthhub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -13,22 +18,41 @@ public class PayrollRecord {
     private Long id;
 
     // Link to employee
+    @NotNull(message = "Employee ID is required")
     private Long employeeId;
+
+    @NotBlank(message = "Employee name is required")
+    @Size(max = 100, message = "Employee name must be at most 100 characters")
     private String employeeName;   // convenience
 
     // Month for which salary is paid (e.g. "2026-04")
+    @NotBlank(message = "Pay month is required")
+    @Size(max = 7, message = "Pay month must be at most 7 characters (e.g. 2026-04)")
     private String payMonth;
 
     // Salary details
+    @NotNull(message = "Basic salary is required")
+    @Positive(message = "Basic salary must be positive")
     private Double basicSalary;    // snapshot from employee at that time
+
     private Integer presentDays;   // optional
     private Integer absentDays;    // optional
+
+    @PositiveOrZero(message = "Deductions must be zero or positive")
     private Double deductions;     // manual total deduction
+
+    @PositiveOrZero(message = "Net salary must be zero or positive")
     private Double netSalary;      // basicSalary - deductions
 
     // Payment info
+    @NotNull(message = "Payment date is required")
     private LocalDate paymentDate;
+
+    @NotBlank(message = "Payment method is required")
+    @Size(max = 50, message = "Payment method must be at most 50 characters")
     private String paymentMethod;  // Cash / BankTransfer / etc.
+
+    @Size(max = 255, message = "Remarks must be at most 255 characters")
     private String remarks;
 
     public PayrollRecord() {

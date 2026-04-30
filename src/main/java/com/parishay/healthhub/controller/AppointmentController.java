@@ -2,6 +2,7 @@ package com.parishay.healthhub.controller;
 
 import com.parishay.healthhub.entity.Appointment;
 import com.parishay.healthhub.service.AppointmentService;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class AppointmentController {
 
     // Create new appointment
     @PostMapping
-    public ResponseEntity<Appointment> create(@RequestBody Appointment appointment) {
+    public ResponseEntity<Appointment> create(@Valid @RequestBody Appointment appointment) {
         Appointment saved = appointmentService.create(appointment);
         return ResponseEntity.ok(saved);
     }
@@ -46,7 +47,7 @@ public class AppointmentController {
     // Update appointment
     @PutMapping("/{id}")
     public ResponseEntity<Appointment> update(@PathVariable Long id,
-                                              @RequestBody Appointment appointment) {
+                                              @Valid @RequestBody Appointment appointment) {
         Appointment updated = appointmentService.update(id, appointment);
         return ResponseEntity.ok(updated);
     }

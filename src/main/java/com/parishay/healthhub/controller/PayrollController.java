@@ -2,6 +2,7 @@ package com.parishay.healthhub.controller;
 
 import com.parishay.healthhub.entity.PayrollRecord;
 import com.parishay.healthhub.service.PayrollService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class PayrollController {
 
     // Create payroll record
     @PostMapping
-    public ResponseEntity<PayrollRecord> create(@RequestBody PayrollRecord payrollRecord) {
+    public ResponseEntity<PayrollRecord> create(@Valid @RequestBody PayrollRecord payrollRecord) {
         PayrollRecord saved = payrollService.create(payrollRecord);
         return ResponseEntity.ok(saved);
     }
@@ -42,7 +43,7 @@ public class PayrollController {
     // Update
     @PutMapping("/{id}")
     public ResponseEntity<PayrollRecord> update(@PathVariable Long id,
-                                                @RequestBody PayrollRecord payrollRecord) {
+                                                @Valid @RequestBody PayrollRecord payrollRecord) {
         PayrollRecord updated = payrollService.update(id, payrollRecord);
         return ResponseEntity.ok(updated);
     }

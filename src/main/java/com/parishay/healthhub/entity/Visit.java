@@ -1,6 +1,9 @@
 package com.parishay.healthhub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,20 +16,37 @@ public class Visit {
 
     // Link to Appointment, Patient, Doctor
     private Long appointmentId;
+
+    @NotNull(message = "Patient ID is required")
     private Long patientId;
+
+    @NotNull(message = "Doctor ID is required")
     private Long doctorId;
 
     // Readable names (convenience)
+    @Size(max = 100, message = "Patient name must be at most 100 characters")
     private String patientName;
+
+    @Size(max = 100, message = "Doctor name must be at most 100 characters")
     private String doctorName;
 
     // When visit happened
+    @NotNull(message = "Visit date and time is required")
     private LocalDateTime visitDateTime;
 
     // Clinical details
+    @NotBlank(message = "Symptoms are required")
+    @Size(max = 1000, message = "Symptoms must be at most 1000 characters")
     private String symptoms;    // e.g. "Headache, nausea"
+
+    @NotBlank(message = "Diagnosis is required")
+    @Size(max = 1000, message = "Diagnosis must be at most 1000 characters")
     private String diagnosis;   // e.g. "Migraine"
+
+    @Size(max = 1000, message = "Medicines must be at most 1000 characters")
     private String medicines;   // e.g. "Paracetamol 500mg BD for 3 days"
+
+    @Size(max = 1000, message = "Advice must be at most 1000 characters")
     private String advice;      // e.g. "Drink water, rest, follow-up in 1 week"
 
     public Visit() {

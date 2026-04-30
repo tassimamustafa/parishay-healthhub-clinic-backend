@@ -2,6 +2,7 @@ package com.parishay.healthhub.controller;
 
 import com.parishay.healthhub.entity.EmployeeAttendance;
 import com.parishay.healthhub.service.EmployeeAttendanceService;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class EmployeeAttendanceController {
     // Mark / create attendance
     @PostMapping
     public ResponseEntity<EmployeeAttendance> create(
-            @RequestBody EmployeeAttendance attendance) {
+            @Valid @RequestBody EmployeeAttendance attendance) {
         EmployeeAttendance saved = attendanceService.create(attendance);
         return ResponseEntity.ok(saved);
     }
@@ -47,7 +48,7 @@ public class EmployeeAttendanceController {
     // Update attendance
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeAttendance> update(@PathVariable Long id,
-                                                     @RequestBody EmployeeAttendance attendance) {
+                                                     @Valid @RequestBody EmployeeAttendance attendance) {
         EmployeeAttendance updated = attendanceService.update(id, attendance);
         return ResponseEntity.ok(updated);
     }

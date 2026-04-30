@@ -2,6 +2,7 @@ package com.parishay.healthhub.controller;
 
 import com.parishay.healthhub.entity.Employee;
 import com.parishay.healthhub.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class EmployeeController {
 
     // Create
     @PostMapping
-    public ResponseEntity<Employee> create(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> create(@Valid @RequestBody Employee employee) {
         Employee saved = employeeService.create(employee);
         return ResponseEntity.ok(saved);
     }
@@ -42,7 +43,7 @@ public class EmployeeController {
     // Update
     @PutMapping("/{id}")
     public ResponseEntity<Employee> update(@PathVariable Long id,
-                                           @RequestBody Employee employee) {
+                                           @Valid @RequestBody Employee employee) {
         Employee updated = employeeService.update(id, employee);
         return ResponseEntity.ok(updated);
     }

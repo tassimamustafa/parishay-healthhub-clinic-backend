@@ -2,6 +2,7 @@ package com.parishay.healthhub.controller;
 
 import com.parishay.healthhub.entity.Sale;
 import com.parishay.healthhub.service.SaleService;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class SaleController {
 
     // Create new sale
     @PostMapping
-    public ResponseEntity<Sale> create(@RequestBody Sale sale) {
+    public ResponseEntity<Sale> create(@Valid @RequestBody Sale sale) {
         Sale saved = saleService.create(sale);
         return ResponseEntity.ok(saved);
     }
@@ -46,7 +47,7 @@ public class SaleController {
     // Update sale
     @PutMapping("/{id}")
     public ResponseEntity<Sale> update(@PathVariable Long id,
-                                       @RequestBody Sale sale) {
+                                       @Valid @RequestBody Sale sale) {
         Sale updated = saleService.update(id, sale);
         return ResponseEntity.ok(updated);
     }

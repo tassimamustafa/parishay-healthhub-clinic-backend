@@ -1,6 +1,9 @@
 package com.parishay.healthhub.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,29 +15,46 @@ public class Employee {
     private Long id;                 // system generated primary key
 
     // CNIC / ID like 35301-6765713-2
+    @NotBlank(message = "CNIC is required")
+    @Size(max = 20, message = "CNIC must be at most 20 characters")
     private String cnic;
 
+    @NotBlank(message = "First name is required")
+    @Size(max = 50, message = "First name must be at most 50 characters")
     private String firstName;
 
+    @NotBlank(message = "Last name is required")
+    @Size(max = 50, message = "Last name must be at most 50 characters")
     private String lastName;
 
     // Mobile no like +92 343 867 8697
+    @NotBlank(message = "Mobile number is required")
+    @Size(max = 20, message = "Mobile number must be at most 20 characters")
     private String mobileNo;
 
+    @Size(max = 100, message = "Email must be at most 100 characters")
     private String email;
 
     // Just city name
+    @NotBlank(message = "Address is required")
+    @Size(max = 255, message = "Address must be at most 255 characters")
     private String address;
-    
-    //for payroll ,module 
+
+    // for payroll module
+    @Positive(message = "Basic monthly salary must be positive")
     private Double basicMonthlySalary;
 
     // Active / Inactive
+    @NotBlank(message = "Status is required")
+    @Size(max = 20, message = "Status must be at most 20 characters")
     private String status;
 
     // Office Boy, Helpdesk, Doctor, Receptionist etc.
+    @NotBlank(message = "Role is required")
+    @Size(max = 50, message = "Role must be at most 50 characters")
     private String role;
 
+    @Positive(message = "Salary must be positive")
     private Double salary;
 
     // Duty time: day/month/year + time
@@ -146,8 +166,7 @@ public class Employee {
     public void setDutyTime(LocalDateTime dutyTime) {
         this.dutyTime = dutyTime;
     }
-    
-    // getr setr 
+
     public Double getBasicMonthlySalary() {
         return basicMonthlySalary;
     }
